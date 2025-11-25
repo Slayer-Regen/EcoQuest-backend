@@ -48,8 +48,8 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 // API Routes
-app.use('/auth', authRoutes);
-app.use('/api/me', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/points', pointsRoutes);
