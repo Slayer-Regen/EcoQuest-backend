@@ -7,10 +7,23 @@ import { sendWeeklySummaryEmail } from './jobs/emailSummary';
 
 dotenv.config();
 
-const redisConnection = {
-    host: process.env.REDIS_HOST || 'redis',
-    port: parseInt(process.env.REDIS_PORT || '6379'),
+// Parse Redis URL for Railway/production or use local config
+const getRedisConnection = () => {
+    const redisUrl = process.env.REDIS_URL;
+
+    if (redisUrl) {
+        // Production: use REDIS_URL (Railway format)
+        return { url: redisUrl };
+    }
+
+    // Development: use host/port
+    return {
+        host: process.env.REDIS_HOST || 'redis',
+        port: parseInt(process.env.REDIS_PORT || '6379'),
+    };
 };
+
+const redisConnection = getRedisConnection();
 
 // Define queues
 export const activityQueue = new Queue('activities', { connection: redisConnection });
